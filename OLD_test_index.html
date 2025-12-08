@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cascadia+Code:ital,wght@0,200..700;1,200..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+    <script>
+      window.initAutocomplete = function () {
+        const input = document.getElementById('address-input');
+        const autocomplete = new google.maps.places.Autocomplete(input, {
+          types: ['address'],
+          componentRestrictions: { country: 'us' }
+        });
+      };
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAL5PtDf5j--vnHL8AqIS2WVeOEx_-Ywko&libraries=places&callback=initAutocomplete" async defer></script>
+    
+
+  <style>
+    html,
+    body {
+      margin: 0 auto;
+      height: 100%;
+      display: block;
+      width: 100%;
+      background-image: linear-gradient(to right top, #a1a5ac, #00232d, #003c3b, #105535, #536922);
+      overflow-x: hidden;
+      color: #fff;
+      font-size: 1.3rem;
+    }
+
+    #big-container {
+      font-family: Roboto, sans-serif;
+      font-size: 1.8rem;
+      margin: 0 auto;
+      max-width: 800px;
+      /* padding: 30px; */
+      height: 100%;
+      box-sizing: border-box;
+      flex-direction: column;
+  align-items: center;
+  text-align: center;
+    }
+
+    h1 {
+      font-family: Cascadia Code, sans-serif;
+      font-size: 4rem;
+      color: #fff;
+      margin: 0;
+      padding: 40px;
+      text-align: center;
+      text-shadow: #010710;
+      font-weight: 700;
+      text-decoration-color: #fff;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 5px;
+      text-shadow: 1px 2px 2px rgb(39, 3, 9);
+    }
+
+    h2 {
+      font-family: Roboto, sans-serif;
+      font-size: 2.5rem;
+      color: #72ec0e;
+      text-shadow: 1px 2px 2px #101010;
+      margin: 0;
+      padding: 40px;
+      text-align: center;
+    }
+
+    h3 {
+      font-family: Cascadia Code, sans-serif;
+      font-size: 3rem;
+      color: #fff;
+      text-shadow: 1px 2px 2px #101010;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h4 {
+      font-family: Cascadia Code, sans-serif;
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: #fff;
+      background-color: transparent;
+      margin: 0;
+      padding: 20px;
+      text-align: left;
+    }
+
+    #interactive1 {
+      text-align: center;
+      margin-top: 100px;
+      margin-bottom: 0px;
+      align-items: center;
+      width: 90%;
+      height: 100%;
+      color: #FFF;
+       box-sizing: border-box;
+      margin: 0 auto;
+
+    }
+
+    #custom-output {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+  font-size: 1.8rem;
+  padding: 30px;
+  border-radius: 10px;
+  background-color: #f1f4ee;
+  color: #111010;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  margin: 30px auto 0;
+  max-width: 600px;
+  text-align: center;
+}
+
+#custom-output.visible {
+  display: block;
+  opacity: 1;
+}
+
+#result-text {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: 500;
+  text-shadow: 1px 2px 2px #f0f4ee;
+  color: #111010;
+}
+    #address-input {
+      width: 90%;
+      padding: 10px;
+      font-size: 1.2rem;
+      border-radius: 1px;
+      border: 2px solid #72ec0e;
+      background-color: #fff;
+      color: #000;
+    }
+
+   #floor-input {
+      width: 90%;
+      padding: 10px;
+      font-size: 1.2rem;
+      border-radius: 1px;
+      border: 2px solid #72ec0e;
+      background-color: #fff;
+      color: #000;
+    }
+
+    .floor-button {
+      background-color: #72ec0e;
+      color: #000;
+      border: none;
+      padding: 15px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      text-align: center;
+      flex: 1;
+      max-width: 200px;
+      min-width: 100px;
+      box-sizing: border-box;
+    }
+
+    .floor-button:hover {
+      background-color: #fff;
+      color: #000;
+      border: 2px solid #72ec0e;
+    }
+
+
+  #watertankmap {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  margin: 30px auto;
+  max-width: 100%;
+  overflow: hidden;
+    
+}
+#watertankmap iframe {
+  width: 100%;
+  height: 990px;
+  border: none;
+  display: block;
+  max-width: 100%;
+  overflow: visible;
+}
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .pac-container {
+  z-index: 10000 !important;
+      position: fixed;
+    }
+
+    #address-input,
+#floor-input,
+#submit-button {
+  display: block;
+  margin: 10px auto;
+  width: 90%;
+  max-width: 500px;
+  box-sizing: border-box;
+  text-align: center;
+}
+  
+
+    /* MEDIA QUERIES */
+    @media (max-width: 600px) {
+      #big-container {
+        padding: 15px;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+        padding: 15px 10px;
+        line-height: 1.3;
+      }
+
+      h2 {
+        font-size: 1.2rem;
+        padding: 10px 10px;
+        line-height: 1.3;
+      }
+
+      .floor-button {
+        font-size: 1rem;
+        padding: 12px;
+        margin: 6px auto;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      #address-input,
+      #floor-input {
+        font-size: 1rem;
+        padding: 15px;
+        width: 100%;
+      }
+
+      #custom-output {
+        width: 100%;
+        font-size: 1rem;
+        padding: 15px;
+        box-sizing: border-box;
+      }
+
+      #watertankmap {
+        padding: 10px;
+        margin-top: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      #watertankmap iframe {
+        width: 100% !important;
+        height: 80vh !important;
+        max-width: 100%;
+        border: none;
+      }
+    }
+
+  
+  </style>
+
+</head>
+
+<body>
+  <div id="page-wrapper" style="min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between;">
+    <h1>How Clean is Your Drinking Water, Really?</h1>
+    <h2>AN NYC TAP WATER INTERACTIVE</h2>
+
+    <div id="big-container">
+      <div id="interactive1">
+        <p>Type your New York City address here:</p>
+        <div class="input-wrapper">
+          <input type="text" id="address-input" placeholder="Enter your address" autocomplete="off" />
+        </div>
+        <br>
+        <p>Do you live on the sixth floor or higher?</p>
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px">
+          <button class="floor-button" data-floor="yes">Yes</button>
+          <button class="floor-button" data-floor="no">No</button>
+        </div>
+
+        <div id="custom-output" style="margin-top: 30px;">
+          <p id="result-text"></p>
+          <p>
+            Click <a
+              href="https://www.epa.gov/system/files/documents/2024-06/how-to-id-filters-certified-to-reduce-lead-in-drinking-water-epa_june-2024.pdf"
+              target="_blank">here</a> to learn more about lead filters.
+            Click <a href="https://www.nyc.gov/content/leadfree/pages/request-water-test-kit" target="_blank">here</a>
+            to order a lead testing kit from the city.
+            See below to explore the map of NYC water tanks with safety violations.
+          </p>
+        </div>
+        <div id="watertankmap" style="display: none;">
+          <iframe title="NYC Water Tanks With 1 or More Safety Violations (2020-Present)" aria-label="Map"
+            src="https://datawrapper.dwcdn.net/nBf2l/8/" scrolling="no" frameborder="0" height="945" data-external="1">
+          </iframe>
+        </div>
+      </div>
+      <h4>©2025 Lizzie Walsh</h4>
+    </div>
+  
+
+  <script>
+       
+    const Tankinfo =[
+{
+  "FullAddress": "100 centre street",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Violation",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "100 Centre street",
+  "LATITUDE": 40.716084,
+  "LONGITUDE": -74.001425,
+  "ZIP": 10013,
+  "# of Tanks": 2,
+  "CENSUS_TRACT": 29,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "1020 fifth avenue",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Violation",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "1020 Fifth Avenue",
+  "LATITUDE": 40.779558,
+  "LONGITUDE": -73.961531,
+  "ZIP": 10028,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 142,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "1056 fifth avenue",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Violation",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "1056 Fifth Avenue",
+  "LATITUDE": 40.782107,
+  "LONGITUDE": -73.959988,
+  "ZIP": 10028,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 15002,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "1118 grand concourse",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Violation",
+  "SUM_RODENT_BIRD": "Violation",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "1118 Grand Concourse",
+  "LATITUDE": 40.832232,
+  "LONGITUDE": -73.919655,
+  "ZIP": 10456,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 18102,
+  "# OF VIOLATIONS": 3
+},
+{
+  "FullAddress": "121 west 27th st",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Violation",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "121 West 27th St",
+  "LATITUDE": 40.745831,
+  "LONGITUDE": -73.991916,
+  "ZIP": 10001,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 95,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "1220 fifth avenue",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Violation",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "1220 Fifth Avenue",
+  "LATITUDE": 40.792438,
+  "LONGITUDE": -73.952448,
+  "ZIP": 10029,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 168,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "125 worth street",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Violation",
+  "SUM_DEBRIS_INSECTS": "Violation",
+  "SUM_RODENT_BIRD": "Violation",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "125 worth street",
+  "LATITUDE": 40.715428,
+  "LONGITUDE": -74.002673,
+  "ZIP": 10013,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 31,
+  "# OF VIOLATIONS": 4
+},
+{
+  "FullAddress": "138 willoughby street",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Violation",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Violation",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "138 Willoughby Street",
+  "LATITUDE": 40.692069,
+  "LONGITUDE": -73.983135,
+  "ZIP": 11201,
+  "# of Tanks": 5,
+  "CENSUS_TRACT": 15,
+  "# OF VIOLATIONS": 3
+},
+{
+  "FullAddress": "140 east 72nd street",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Violation",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "140 East 72nd Street",
+  "LATITUDE": 40.770533,
+  "LONGITUDE": -73.962493,
+  "ZIP": 10021,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 128,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "15 west 56th street",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Violation",
+  "SUM_RODENT_BIRD": "Violation",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "15 West 56th Street",
+  "LATITUDE": 40.76264,
+  "LONGITUDE": -73.975258,
+  "ZIP": 10019,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 11201,
+  "# OF VIOLATIONS": 3
+},
+{
+  "FullAddress": "150 william street",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "150 William Street",
+  "LATITUDE": 40.709729,
+  "LONGITUDE": -74.006255,
+  "ZIP": 10038,
+  "# of Tanks": 2,
+  "CENSUS_TRACT": 1501,
+  "# OF VIOLATIONS": 1
+},
+{
+  "FullAddress": "160 madison street",
+  "SUM_SEDIMENT": "Meets standards",
+  "SUM_BIOLOGICAL_GROWTH": "Violation",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Violation",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "160 Madison Street",
+  "LATITUDE": 40.712488,
+  "LONGITUDE": -73.991924,
+  "ZIP": 10002,
+  "# of Tanks": 2,
+  "CENSUS_TRACT": 6,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "181 convent avenue",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Violation",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "181 Convent Avenue",
+  "LATITUDE": 40.819574,
+  "LONGITUDE": -73.949921,
+  "ZIP": 10031,
+  "# of Tanks": 2,
+  "CENSUS_TRACT": 21703,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "201 east 62nd street",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Violation",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "201 East 62nd Street",
+  "LATITUDE": 40.763296,
+  "LONGITUDE": -73.964869,
+  "ZIP": 10065,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 110,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "210 joralemon street",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Violation",
+  "SUM_RODENT_BIRD": "Violation",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "210 Joralemon Street",
+  "LATITUDE": 40.692459,
+  "LONGITUDE": -73.990491,
+  "ZIP": 11201,
+  "# of Tanks": 2,
+  "CENSUS_TRACT": 9,
+  "# OF VIOLATIONS": 3
+},
+{
+  "FullAddress": "230 east 115th street",
+  "SUM_SEDIMENT": "Meets standards",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Violation",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "230 East 115th Street",
+  "LATITUDE": 40.796689,
+  "LONGITUDE": -73.939208,
+  "ZIP": 10029,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 180,
+  "# OF VIOLATIONS": 1
+},
+{
+  "FullAddress": "265 east 161 street",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Violation",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "265 east 161 street",
+  "LATITUDE": 40.825928,
+  "LONGITUDE": -73.919514,
+  "ZIP": 10451,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 18302,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "300 jay street",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Violation",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "300 Jay Street",
+  "LATITUDE": 40.695547,
+  "LONGITUDE": -73.98714,
+  "ZIP": 11201,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 13,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "301 east 66th street",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Violation",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "301 East 66th Street",
+  "LATITUDE": 40.764846,
+  "LONGITUDE": -73.960789,
+  "ZIP": 10065,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 118,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "305 east 40th street",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Violation",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "305 East 40th Street",
+  "LATITUDE": 40.748469,
+  "LONGITUDE": -73.972954,
+  "ZIP": 10016,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 88,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "31 chambers street",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Violation",
+  "SUM_DEBRIS_INSECTS": "Violation",
+  "SUM_RODENT_BIRD": "Violation",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "31 Chambers street",
+  "LATITUDE": 40.713402,
+  "LONGITUDE": -74.004635,
+  "ZIP": 10007,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 31,
+  "# OF VIOLATIONS": 4
+},
+{
+  "FullAddress": "310 east 46th street",
+  "SUM_SEDIMENT": "Meets standards",
+  "SUM_BIOLOGICAL_GROWTH": "Violation",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "310 East 46th Street",
+  "LATITUDE": 40.752154,
+  "LONGITUDE": -73.969834,
+  "ZIP": 10017,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 90,
+  "# OF VIOLATIONS": 1
+},
+{
+  "FullAddress": "34-27 34th st",
+  "SUM_SEDIMENT": "Meets standards",
+  "SUM_BIOLOGICAL_GROWTH": "Violation",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Violation",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Violation",
+  "ADDRESS": "34-27 34th St",
+  "LATITUDE": 40.758027,
+  "LONGITUDE": -73.925263,
+  "ZIP": 11106,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 57,
+  "# OF VIOLATIONS": 3
+},
+{
+  "FullAddress": "345 adams street",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Violation",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "345 adams street",
+  "LATITUDE": 40.6934,
+  "LONGITUDE": -73.988915,
+  "ZIP": 11201,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 11,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "35 hale street",
+  "SUM_SEDIMENT": "Meets standards",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Violation",
+  "SUM_ECOLI": "Violation",
+  "ADDRESS": "35 hale street",
+  "LATITUDE": 40.514811,
+  "LONGITUDE": -74.236572,
+  "ZIP": 10307,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 248,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "360 adams street",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "360 adams street",
+  "LATITUDE": 40.694122,
+  "LONGITUDE": -73.988904,
+  "ZIP": 11201,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 11,
+  "# OF VIOLATIONS": 1
+},
+{
+  "FullAddress": "4 sutton place",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Violation",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "4 Sutton Place",
+  "LATITUDE": 40.757512,
+  "LONGITUDE": -73.960576,
+  "ZIP": 10022,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 10601,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "45 monroe place",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Violation",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "45 monroe place",
+  "LATITUDE": 40.695822,
+  "LONGITUDE": -73.992802,
+  "ZIP": 11201,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 502,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "455 east 57th street",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Violation",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "455 East 57th Street",
+  "LATITUDE": 40.757809,
+  "LONGITUDE": -73.961713,
+  "ZIP": 10022,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 10601,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "47 east 88th street",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Violation",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "47 East 88th Street",
+  "LATITUDE": 40.78198,
+  "LONGITUDE": -73.95741,
+  "ZIP": 10128,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 15002,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "520 12th ave",
+  "SUM_SEDIMENT": "Meets standards",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Violation",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "520 12th Ave",
+  "LATITUDE": 40.762316,
+  "LONGITUDE": -74.000036,
+  "ZIP": 10036,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 129,
+  "# OF VIOLATIONS": 1
+},
+{
+  "FullAddress": "53 east 66th street",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Violation",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "53 East 66th Street",
+  "LATITUDE": 40.767746,
+  "LONGITUDE": -73.967668,
+  "ZIP": 10065,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 122,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "541 lexington avenue",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Violation",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "541 Lexington Avenue",
+  "LATITUDE": 40.756162,
+  "LONGITUDE": -73.972593,
+  "ZIP": 10022,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 100,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "60 centre street",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Violation",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "60 centre street",
+  "LATITUDE": 40.714467,
+  "LONGITUDE": -74.002503,
+  "ZIP": 10007,
+  "# of Tanks": 2,
+  "CENSUS_TRACT": 29,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "62 hanson place",
+  "SUM_SEDIMENT": "Meets standards",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Violation",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "62 HANSON PLACE",
+  "LATITUDE": 40.685414,
+  "LONGITUDE": -73.975096,
+  "ZIP": 11217,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 35,
+  "# OF VIOLATIONS": 1
+},
+{
+  "FullAddress": "70 east 108th street",
+  "SUM_SEDIMENT": "Meets standards",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Violation",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "70 East 108th Street",
+  "LATITUDE": 40.794429,
+  "LONGITUDE": -73.947434,
+  "ZIP": 10029,
+  "# of Tanks": 2,
+  "CENSUS_TRACT": 17401,
+  "# OF VIOLATIONS": 1
+},
+{
+  "FullAddress": "720 park avenue",
+  "SUM_SEDIMENT": "Meets standards",
+  "SUM_BIOLOGICAL_GROWTH": "Meets standards",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Violation",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "720 Park Avenue",
+  "LATITUDE": 40.76995,
+  "LONGITUDE": -73.964681,
+  "ZIP": 10021,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 130,
+  "# OF VIOLATIONS": 1
+},
+{
+  "FullAddress": "80 centre street",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Violation",
+  "SUM_DEBRIS_INSECTS": "Violation",
+  "SUM_RODENT_BIRD": "Violation",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "80 Centre street",
+  "LATITUDE": 40.715447,
+  "LONGITUDE": -74.00189,
+  "ZIP": 10013,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 29,
+  "# OF VIOLATIONS": 4
+},
+{
+  "FullAddress": "812 fifth avenue",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Violation",
+  "SUM_DEBRIS_INSECTS": "Violation",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "812 Fifth Avenue",
+  "LATITUDE": 40.766378,
+  "LONGITUDE": -73.971459,
+  "ZIP": 10065,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 11401,
+  "# OF VIOLATIONS": 3
+},
+{
+  "FullAddress": "955 fifth avenue",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Violation",
+  "SUM_DEBRIS_INSECTS": "Meets standards",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "955 Fifth Avenue",
+  "LATITUDE": 40.775466,
+  "LONGITUDE": -73.96483,
+  "ZIP": 10075,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 130,
+  "# OF VIOLATIONS": 2
+},
+{
+  "FullAddress": "969 fifth avenue",
+  "SUM_SEDIMENT": "Violation",
+  "SUM_BIOLOGICAL_GROWTH": "Violation",
+  "SUM_DEBRIS_INSECTS": "Violation",
+  "SUM_RODENT_BIRD": "Meets standards",
+  "SUM_COLIFORM": "Meets standards",
+  "SUM_ECOLI": "Meets standards",
+  "ADDRESS": "969 Fifth Avenue",
+  "LATITUDE": 40.776111,
+  "LONGITUDE": -73.963992,
+  "ZIP": 10075,
+  "# of Tanks": 1,
+  "CENSUS_TRACT": 142,
+  "# OF VIOLATIONS": 3
+}
+]
+
+
+    let Leadinfo = null;
+
+    fetch('https://www.googleapis.com/drive/v3/files/1SEo5FTvbLgpWgdlYPp4WVs8-ha_LrXQJ?alt=media&key=AIzaSyAL5PtDf5j--vnHL8AqIS2WVeOEx_-Ywko')
+  .then(response => {
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    return response.json();
+  })
+  .then(data => {
+    Leadinfo = data;
+    console.log("Lead pipe data loaded. Sample entry:", data.features?.[0]?.properties?.FullAddress);
+    Leadinfo.features.forEach((feature, i) => {
+      if (!feature?.properties?.FullAddress || typeof feature.properties.FullAddress !== 'string') {
+        console.warn(`Skipping invalid FullAddress at index ${i}`);
+      }
+    });
+  })
+  .catch(error => console.error('Error loading lead pipe data:', error));
+       
+  function normalizeAddress(address) {
+    if (!address || typeof address !== 'string') return '';
+    return address
+      .trim()
+      .toLowerCase()
+      .replace(/\bapt\b.*$/i, '') // Remove apartment info
+      .replace(/\bfloor\b.*$/i, '') // Remove floor info
+      .replace(/\b(street|st)\b/g, 'st')
+      .replace(/\b(avenue|ave)\b/g, 'ave')
+      .replace(/\b(road|rd)\b/g, 'rd')
+      .replace(/\b(place|pl)\b/g, 'pl')
+      .replace(/\b(drive|dr)\b/g, 'dr')
+      .replace(/\b(terrace|ter)\b/g, 'ter')
+      .replace(/\b(boulevard|blvd)\b/g, 'blvd')
+      .replace(/\b(court|ct)\b/g, 'ct')
+      .replace(/\b(brooklyn|manhattan|queens|bronx|ny|usa)\b/g, '')
+      .replace(/\b\d{5}(?:-\d{4})?\b/g, '') // remove ZIP codes
+      .replace(/[^\w\s]/g, '') // remove punctuation
+      .replace(/\s+/g, ' ')
+      .replace(/,+$/, '') // remove trailing commas (if any)
+      .trim();
+  }
+
+function isNearDirtyTank(address) {
+  const userNorm = normalizeAddress(address);
+  console.log("Checking tank info for:", userNorm);
+
+  return Tankinfo.some(t => {
+    const tankNorm = normalizeAddress(t.FullAddress);
+    console.log("Comparing to tank:", tankNorm);
+    return (
+      tankNorm === userNorm || 
+      tankNorm.includes(userNorm) || 
+      userNorm.includes(tankNorm)
+    ) && t["# OF VIOLATIONS"] > 0;
+  });
+}
+
+      function extractKeyParts(addr) {
+        const normalized = normalizeAddress(addr).replace(/\b\d{5}(?:-\d{4})?\b/g, '').trim();
+        const match = normalized.match(/^(\d{1,5})\s+(.+)$/);
+        if (!match) return null;
+        return {
+          number: match[1],
+          street: match[2].trim()
+        };
+      }
+
+      function hasLeadPipes(address) {
+  if (!Leadinfo) return "Unknown";
+
+  const userNorm = normalizeAddress(address);
+  const userParts = extractKeyParts(userNorm);
+  if (!userParts) {
+    console.warn("Could not parse user address:", userNorm);
+    return "Unknown";
+  }
+
+  console.log("Checking for lead pipes at:", userParts);
+
+  for (const feature of Leadinfo.features) {
+    const rawAddr = feature?.properties?.FullAddress;
+    const material = feature?.properties?.MATERIAL_GROUP;
+    if (!rawAddr || !material) continue;
+
+    const datasetParts = extractKeyParts(normalizeAddress(rawAddr));
+    if (!datasetParts) continue;
+
+    const isMatch =
+      userParts.number === datasetParts.number &&
+      userParts.street === datasetParts.street;
+
+    if (isMatch) {
+      console.warn("✅ Lead pipe match:", rawAddr, "<-->", address);
+      return material.trim(); // returns "Lead", "Potential Lead", etc.
+    }
+  }
+
+  return "Unknown";
+}
+
+      document.querySelectorAll(".floor-button").forEach(button => {
+        button.addEventListener("click", () => {
+          const address = document.getElementById("address-input").value;
+          const isHighFloor = button.dataset.floor === "yes";
+
+          if (!address) {
+            document.getElementById("custom-output").innerText = "Please enter your address.";
+            return;
+          }
+
+          const leadStatus = hasLeadPipes(address);
+const tank = isHighFloor && isNearDirtyTank(address);
+
+let leadMessage;
+switch (leadStatus) {
+  case "Lead":
+  case "Potential Lead":
+    leadMessage = `<span style='background-color: yellow; color: black; font-weight: bold;'>${leadStatus.toUpperCase()}</span>`;
+    break;
+  case "Not Lead":
+    leadMessage = "non-lead";
+    break;
+  default:
+    leadMessage = "unknown";
+}
+
+const output = `Your apartment has ${leadMessage} pipes and ${tank ? "<span style='background-color: yellow; color: black; font-weight: bold;'>DOES</span>" : "does not"} have a water tank with known health code violations.`;
+          const outputBox = document.getElementById("custom-output");
+          document.getElementById("result-text").innerHTML = output;
+          outputBox.classList.add("visible");
+          document.getElementById("watertankmap").style.display = "block";
+        });
+      });
+    </script>
+
+    <script>
+      const observerOptions = {
+        threshold: 0.3
+      };
+
+      const revealOnScroll = (entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      };
+
+      const observer = new IntersectionObserver(revealOnScroll, observerOptions);
+      const targets = document.querySelectorAll('#interactive1, #watertankmap');
+      targets.forEach(target => observer.observe(target));
+    </script>
+
+</body>
+
+</html>
+ 
